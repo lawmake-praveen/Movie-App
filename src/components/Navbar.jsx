@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import image from "../assets/tmdb-logo.svg";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchSearchMovie } from "../features/movieSlice";
+import { useDispatch } from "react-redux";
+import { fetchSearch } from "../features/movieSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 
@@ -12,7 +12,6 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [searchTab, setSearchTab] = useState(false);
-  const [navbarOpen, setNavbarOpen] = useState(true);
 
   useEffect(() => {
     if (searchTab) {
@@ -26,7 +25,7 @@ const Navbar = () => {
     if (e.target[0]?.value) {
       setSearchTab(false);
 
-      dispatch(fetchSearchMovie({ searchInput: e.target[0]?.value, page: 1 }));
+      dispatch(fetchSearch({ searchInput: e.target[0]?.value, page: 1 }));
       navigate(`/search/${e.target[0]?.value}`);
 
       inputRef.current.value = "";

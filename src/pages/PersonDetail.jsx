@@ -22,13 +22,16 @@ const PersonDetailPage = () => {
       <div className="details">
         <div className="details-container">
           <div className="img-title">
-            <img
-              src={
-                data?.profile_path
-                  ? `https://image.tmdb.org/t/p/w500` + data?.profile_path
-                  : noImage
-              }
-            />
+            <div className="img-container">
+              <img
+                className="img"
+                src={
+                  data?.profile_path
+                    ? `https://image.tmdb.org/t/p/w500` + data?.profile_path
+                    : noImage
+                }
+              />
+            </div>
             <div className="title-summary">
               <h2 className="title">{data?.name}</h2>
               {data?.also_known_as?.length > 0 && (

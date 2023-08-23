@@ -1,8 +1,9 @@
 export { default as BackdropRows } from "./BackdropRows";
 export { default as PopularMovies } from "./PopularMovies";
-export { default as RecommendedMovies } from "./RecommendedMovies";
-export { default as SimilarMovies } from "./SimilarMovies";
-export { default as TopRatedMovies } from "./TopRatedMovies";
+export { default as PopularTv } from "./PopularTv";
+export { default as Recommended } from "./Recommended";
+export { default as Similar } from "./Similar";
+export { default as TopRated } from "./TopRated";
 export { default as MovieSlider } from "./MovieSlider";
-export { default as UpcomingMovies } from "./UpcomingMovies";
-export { default as TrendingMovies } from "./TrendingMovies";
+export { default as Upcoming } from "./Upcoming";
+export { default as Trending } from "./Trending";

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import MovieSlider from "./MovieSlider";
+import { MovieSlider } from "./exportTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRecommendedMovies } from "../features/movieSlice";
+import { fetchRecommended } from "../features/movieSlice";
 
-const RecommendedMovies = ({ type, id }) => {
+const Recommended = ({ type, id }) => {
   const dispatch = useDispatch();
-  const recommended = useSelector((state) => state.movie.recommendedMovies);
+  const recommended = useSelector((state) => state.movie.recommended);
   const data = recommended?.results;
 
   useEffect(() => {
-    dispatch(fetchRecommendedMovies({ type: type, id: id }));
+    dispatch(fetchRecommended({ type: type, id: id }));
   }, [id]);
 
   return (
@@ -21,4 +21,4 @@ const RecommendedMovies = ({ type, id }) => {
   );
 };
 
-export default RecommendedMovies;
+export default Recommended;

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import MovieSlider from "./MovieSlider";
+import { MovieSlider } from "./exportTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSimilarMovies } from "../features/movieSlice";
+import { fetchSimilar } from "../features/movieSlice";
 
-const SimilarMovies = ({ type, id }) => {
+const Similar = ({ type, id }) => {
   const dispatch = useDispatch();
-  const similar = useSelector((state) => state.movie.similarMovies);
+  const similar = useSelector((state) => state.movie.similar);
   const data = similar?.results;
 
   useEffect(() => {
-    dispatch(fetchSimilarMovies({ type: type, id: id }));
+    dispatch(fetchSimilar({ type: type, id: id }));
   }, [id]);
 
   return (
@@ -19,4 +19,4 @@ const SimilarMovies = ({ type, id }) => {
   );
 };
 
-export default SimilarMovies;
+export default Similar;

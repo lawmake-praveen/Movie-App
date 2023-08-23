@@ -1,36 +1,40 @@
 import React, { useEffect } from "react";
 import {
   BackdropRows,
-  TrendingMovies,
+  Trending,
   PopularMovies,
-  TopRatedMovies,
-  UpcomingMovies,
+  PopularTv,
+  TopRated,
+  Upcoming,
 } from "../types/exportTypes";
 import { useDispatch } from "react-redux";
 import {
-  fetchTrendingMovie,
+  fetchTrending,
   fetchPopularMovies,
-  fetchTopRatedMovies,
-  fetchUpcomingMovie,
+  fetchPopularTv,
+  fetchTopRated,
+  fetchUpcoming,
 } from "../features/movieSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchPopularMovies());
-    dispatch(fetchTopRatedMovies());
-    dispatch(fetchUpcomingMovie());
-    dispatch(fetchTrendingMovie());
+    dispatch(fetchPopularTv());
+    dispatch(fetchTopRated());
+    dispatch(fetchUpcoming());
+    dispatch(fetchTrending());
   }, []);
 
   return (
     <div className="home">
       <BackdropRows />
       <div className="home-type-list">
-        <TrendingMovies />
-        <TopRatedMovies />
+        <Trending />
         <PopularMovies />
-        <UpcomingMovies />
+        <PopularTv />
+        <TopRated />
+        <Upcoming />
       </div>
     </div>
   );

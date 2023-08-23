@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ExploreTemplate } from "../components/exportComponents";
+import { Explore } from "../components/exportComponents";
 import { useDispatch } from "react-redux";
 import { clearExplore, fetchExplore } from "../features/movieSlice";
 
@@ -22,7 +22,7 @@ const ExploreMovies = () => {
 
   return (
     <div>
-      <ExploreTemplate
+      <Explore
         heading="Explore Movies"
         data={explore}
         type="movie"

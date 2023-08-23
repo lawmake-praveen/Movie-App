@@ -1,5 +1,6 @@
 import React from "react";
-import { AiFillStar, AiFillPlayCircle } from "react-icons/ai";
+import { AiFillStar, AiOutlinePlaySquare } from "react-icons/ai";
+import { FaPlay } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const SelectedDetails = ({ data, videoData, credits }) => {
@@ -45,7 +46,7 @@ const SelectedDetails = ({ data, videoData, credits }) => {
           <p className="overview">{data?.overview}</p>
         </>
       )}
-      <div className="trailer-container">
+      <span className="trailer-container">
         {trailer1 ? (
           <Trailer trailer={trailer1} />
         ) : trailer2 ? (
@@ -55,7 +56,7 @@ const SelectedDetails = ({ data, videoData, credits }) => {
         ) : (
           ""
         )}
-      </div>
+      </span>
       {directors?.length > 1 && (
         <div className="dir">
           <p className="dir-title">
@@ -86,18 +87,16 @@ const SelectedDetails = ({ data, videoData, credits }) => {
 
 const Trailer = ({ trailer }) => {
   return (
-    <p className="trailer">
-      <Link
-        className="link-to-trailer"
-        to={`https://www.youtube.com/watch?v=${trailer}`}
-        target="_blank"
-      >
-        <span className="trailer-btn">
-          <AiFillPlayCircle />
-        </span>
-        <span>Trailer</span>
-      </Link>
-    </p>
+    <Link
+      className="link-to-trailer"
+      to={`https://www.youtube.com/watch?v=${trailer}`}
+      target="_blank"
+    >
+      <span className="trailer-btn">
+        <FaPlay />
+      </span>
+      <span>Watch Trailer</span>
+    </Link>
   );
 };
 

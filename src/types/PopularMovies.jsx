@@ -1,5 +1,5 @@
 import React from "react";
-import MovieSlider from "./MovieSlider";
+import { MovieSlider } from "./exportTypes";
 import { useSelector } from "react-redux";
 
 const PopularMovies = () => {

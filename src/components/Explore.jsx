@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { changeMovieSortType, clearExplore } from "../features/movieSlice";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Img } from "../components/exportComponents";
 import NoImage from "../assets/unavailable-img.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ThreeDots } from "react-loader-spinner";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const ExploreTemplate = ({ heading, data, type, fetchNextPage }) => {
+const Explore = ({ heading, data, type, fetchNextPage }) => {
   const fitstLetter = heading.charAt(0);
 
   return (
@@ -41,26 +39,28 @@ const ExploreTemplate = ({ heading, data, type, fetchNextPage }) => {
           ? data.map((item, index) => {
               return (
                 <Link
-                  to={`/${item.media_type || type}/${item.id}`}
+                  to={`/${item?.media_type || type}/${item?.id}`}
                   className="movie-card"
                   key={index}
                 >
-                  <Img
+                  <LazyLoadImage
                     src={
-                      item.poster_path
-                        ? "https://image.tmdb.org/t/p/w400" + item.poster_path
+                      item?.poster_path
+                        ? "https://image.tmdb.org/t/p/w400" + item?.poster_path
                         : NoImage
                     }
                     className="img"
+                    effect="blur"
+                    alt="Poster"
                   />
                   <div className="title-date">
                     <p className="title">
-                      {item.title ? item.title : item.original_name}
+                      {item?.title ? item?.title : item?.name}
                     </p>
                     <span className="release-date">
-                      {item.release_date
-                        ? item.release_date?.slice(0, 4)
-                        : item.first_air_date?.slice(0, 4)}
+                      {item?.release_date
+                        ? item?.release_date?.slice(0, 4)
+                        : item?.first_air_date?.slice(0, 4)}
                     </span>
                   </div>
                 </Link>
@@ -72,4 +72,4 @@ const ExploreTemplate = ({ heading, data, type, fetchNextPage }) => {
   );
 };
 
-export default ExploreTemplate;
+export default Explore;

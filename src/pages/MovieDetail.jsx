@@ -2,31 +2,30 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  clearSelectedMovie,
-  fetchSelectedMovie,
-  fetchSelectedMovieCredits,
-  fetchSelectedMovieVideos,
+  clearSelected,
+  fetchSelected,
+  fetchSelectedCredits,
+  fetchSelectedVideos,
 } from "../features/movieSlice";
-import { AiFillPlayCircle, AiOutlineLink } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { Img, Credits, SelectedDetails } from "../components/exportComponents";
-import SimilarMovies from "../types/SimilarMovies";
-import RecommendedMovies from "../types/RecommendedMovies";
-import noImage from "../assets/unavailable-img.png";
+import { AiOutlineLink } from "react-icons/ai";
+import { Credits, SelectedDetails } from "../components/exportComponents";
+import Similar from "../types/Similar";
+import Recommended from "../types/Recommended";
+import noImage from "../assets/unavailable-img-big.png";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.movie.selectedMovie);
-  const videoData = useSelector((state) => state.movie.selectedMovieVideos);
-  const credits = useSelector((state) => state.movie.selectedMovieCredits);
+  const data = useSelector((state) => state.movie.selected);
+  const videoData = useSelector((state) => state.movie.selectedVideos);
+  const credits = useSelector((state) => state.movie.selectedCredits);
 
   useEffect(() => {
-    dispatch(fetchSelectedMovie({ type: "movie", id: id }));
-    dispatch(fetchSelectedMovieVideos({ type: "movie", id: id }));
-    dispatch(fetchSelectedMovieCredits({ type: "movie", id: id }));
+    dispatch(fetchSelected({ type: "movie", id: id }));
+    dispatch(fetchSelectedVideos({ type: "movie", id: id }));
+    dispatch(fetchSelectedCredits({ type: "movie", id: id }));
     return () => {
-      dispatch(clearSelectedMovie());
+      dispatch(clearSelected());
     };
   }, [dispatch, id]);
 
@@ -39,21 +38,26 @@ const MovieDetail = () => {
     <div className="movie-tv-detail-page">
       {data?.id && (
         <div className="details">
-          <div className="backdrop-container">
-            <Img
-              className="backdrop-img"
-              src={`https://image.tmdb.org/t/p/w500${data?.backdrop_path}`}
-            />
-          </div>
           <div className="details-container">
+            {data?.backdrop_path && (
+              <div className="backdrop-container">
+                <img
+                  className="backdrop-img"
+                  src={`https://image.tmdb.org/t/p/w500${data?.backdrop_path}`}
+                />
+              </div>
+            )}
             <div className="img-title">
-              <img
-                src={
-                  data?.poster_path
-                    ? `https://image.tmdb.org/t/p/w500` + data?.poster_path
-                    : noImage
-                }
-              />
+              <div className="img-container">
+                <img
+                  className="img"
+                  src={
+                    data?.poster_path
+                      ? `https://image.tmdb.org/t/p/w500` + data?.poster_path
+                      : noImage
+                  }
+                />
+              </div>
               <div className="title-summary">
                 <h2 className="title">{data?.title}</h2>
                 <p className="tagline">{data?.tagline}</p>
@@ -90,11 +94,11 @@ const MovieDetail = () => {
                 />
               </div>
             </div>
-            <div className="additional-details">
-              {actors?.length && <Credits heading="Top Cast" actors={actors} />}
-              <RecommendedMovies type="movie" id={id} />
-              <SimilarMovies type="movie" id={id} />
-            </div>
+          </div>
+          <div className="additional-details">
+            {actors?.length && <Credits heading="Top Cast" actors={actors} />}
+            <Recommended type="movie" id={id} />
+            <Similar type="movie" id={id} />
           </div>
         </div>
       )}

@@ -2,31 +2,29 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  clearSelectedMovie,
-  fetchSelectedMovie,
-  fetchSelectedMovieCredits,
-  fetchSelectedMovieVideos,
+  clearSelected,
+  fetchSelected,
+  fetchSelectedCredits,
+  fetchSelectedVideos,
 } from "../features/movieSlice";
 import { AiOutlineLink } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { Img, Credits, SelectedDetails } from "../components/exportComponents";
-import SimilarMovies from "../types/SimilarMovies";
-import RecommendedMovies from "../types/RecommendedMovies";
-import noImage from "../assets/unavailable-img.png";
+import { Credits, SelectedDetails } from "../components/exportComponents";
+import { Similar, Recommended } from "../types/exportTypes";
+import noImage from "../assets/unavailable-img-big.png";
 
-const MovieDetail = () => {
+const TvDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.movie.selectedMovie);
-  const videoData = useSelector((state) => state.movie.selectedMovieVideos);
-  const credits = useSelector((state) => state.movie.selectedMovieCredits);
+  const data = useSelector((state) => state.movie.selected);
+  const videoData = useSelector((state) => state.movie.selectedVideos);
+  const credits = useSelector((state) => state.movie.selectedCredits);
 
   useEffect(() => {
-    dispatch(fetchSelectedMovie({ type: "tv", id: id }));
-    dispatch(fetchSelectedMovieVideos({ type: "tv", id: id }));
-    dispatch(fetchSelectedMovieCredits({ type: "tv", id: id }));
+    dispatch(fetchSelected({ type: "tv", id: id }));
+    dispatch(fetchSelectedVideos({ type: "tv", id: id }));
+    dispatch(fetchSelectedCredits({ type: "tv", id: id }));
     return () => {
-      dispatch(clearSelectedMovie());
+      dispatch(clearSelected());
     };
   }, [dispatch, id]);
 
@@ -37,23 +35,28 @@ const MovieDetail = () => {
 
   return (
     <div className="movie-tv-detail-page">
-      {data.id && (
+      {data?.id && (
         <div className="details">
-          <div className="backdrop-container">
-            <Img
-              className="backdrop-img"
-              src={`https://image.tmdb.org/t/p/w500${data?.backdrop_path}`}
-            />
-          </div>
           <div className="details-container">
+            {data?.backdrop_path && (
+              <div className="backdrop-container">
+                <img
+                  className="backdrop-img"
+                  src={`https://image.tmdb.org/t/p/w500${data?.backdrop_path}`}
+                />
+              </div>
+            )}
             <div className="img-title">
-              <img
-                src={
-                  data?.poster_path
-                    ? `https://image.tmdb.org/t/p/w500` + data?.poster_path
-                    : noImage
-                }
-              />
+              <div className="img-container">
+                <img
+                  className="img"
+                  src={
+                    data?.poster_path
+                      ? `https://image.tmdb.org/t/p/w500` + data?.poster_path
+                      : noImage
+                  }
+                />
+              </div>
               <div className="title-summary">
                 <h2 className="title">{data?.name}</h2>
                 <p className="tagline">{data?.tagline}</p>
@@ -80,9 +83,7 @@ const MovieDetail = () => {
                     {data?.first_air_date?.slice(0, 4) +
                       "-" +
                       data?.last_air_date?.slice(0, 4)}
-                    {data?.in_production === true
-                      ? " (Running)"
-                      : " (Cancelled)"}
+                    {data?.in_production === true ? " (Running)" : " (Ended)"}
                   </div>
                   <div className="website">
                     {data?.homepage && (
@@ -90,7 +91,7 @@ const MovieDetail = () => {
                         <span>
                           <AiOutlineLink />
                         </span>{" "}
-                        Website{" "}
+                        Website
                       </a>
                     )}
                   </div>
@@ -102,11 +103,11 @@ const MovieDetail = () => {
                 />
               </div>
             </div>
-            <div className="additional-details">
-              <Credits heading="Top Cast" actors={actors} />
-              <RecommendedMovies type="tv" id={id} />
-              <SimilarMovies type="tv" id={id} />
-            </div>
+          </div>
+          <div className="additional-details">
+            {actors?.length && <Credits actors={actors} />}
+            <Recommended type="tv" id={id} />
+            <Similar type="tv" id={id} />
           </div>
         </div>
       )}
@@ -114,4 +115,4 @@ const MovieDetail = () => {
   );
 };
 
-export default MovieDetail;
+export default TvDetail;
