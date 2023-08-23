@@ -2,24 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import image from "../assets/tmdb-logo.svg";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  searchInputUpdate,
-  pageChange,
-  searchMovie,
-} from "../features/movieSlice";
-import { useNavigate } from "react-router-dom";
+import { fetchSearchMovie } from "../features/movieSlice";
+import { Link, useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const inputRef = useRef(false);
   const navigate = useNavigate();
 
-  const value = useSelector((state) => state.movie.searchInput);
-  const page = useSelector((state) => state.movie.currentPage);
-
-  const [inputValue, setInputValue] = useState("");
   const [searchTab, setSearchTab] = useState(false);
-  const [currentPage, setCurrentPage] = useState("All");
+  const [navbarOpen, setNavbarOpen] = useState(true);
 
   useEffect(() => {
     if (searchTab) {
@@ -27,53 +20,57 @@ const Navbar = () => {
     }
   }, [searchTab]);
 
-  const handleSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    if (inputValue) {
-      dispatch(searchInputUpdate(inputValue));
-      console.log(inputValue);
-      dispatch(searchMovie(inputValue));
-      navigate(`/search/${inputValue}`);
+
+    if (e.target[0]?.value) {
+      setSearchTab(false);
+
+      dispatch(fetchSearchMovie({ searchInput: e.target[0]?.value, page: 1 }));
+      navigate(`/search/${e.target[0]?.value}`);
+
+      inputRef.current.value = "";
     }
   };
 
   const currentPageChange = (e) => {
-    console.log(e.target.value);
-    setCurrentPage(e.target.value);
-    // dispatch(pageChange(currentPage));
-    navigate(e.target.value);
+    setSearchTab(false);
+    navigate(e.value);
   };
+
+  const options = [
+    { value: "/", label: "All" },
+    { value: "/discover/movie", label: "Movies" },
+    { value: "/discover/tv", label: "TV Shows" },
+  ];
 
   return (
     <div className="navbar">
       <div className="logo-div">
-        <img src={image} alt="TMDB logo" />
+        <Link to="/">
+          <img src={image} alt="TMDB logo" />
+        </Link>
       </div>
       <div className="right-div">
-        <select
-          className="change-genre"
-          value={currentPage}
+        <Select
+          isSearchable={false}
+          defaultValue={options[0]}
+          options={options}
           onChange={currentPageChange}
-        >
-          <option value="/">All</option>
-          <option value="/discover/movie">Movies</option>
-          <option value="/discover/tv">TV Shows</option>
-        </select>
+          placeholder="All"
+          name="genre"
+          className="change-genre"
+          classNamePrefix="react-select"
+        />
         <span className="search-icon" onClick={() => setSearchTab(!searchTab)}>
           <BiSearchAlt2 />
         </span>
       </div>
       <form
         className={`search-tab ${searchTab ? "show-search-tab" : ""}`}
-        onSubmit={handleSubmit}
+        onSubmit={handleSearch}
       >
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Search"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
+        <input ref={inputRef} type="text" placeholder="Search" />
         <button type="submit">
           <BiSearchAlt2 className="icon" />
         </button>

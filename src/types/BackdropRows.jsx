@@ -27,7 +27,6 @@ const BackdropRows = () => {
       navigation={showNav}
       modules={[Autoplay, Pagination, Navigation]}
     >
-      <div className="shading-effect"></div>
       {popularMovies.results ? (
         popularMovies.results.map((item, index) => {
           return (

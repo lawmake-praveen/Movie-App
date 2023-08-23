@@ -3,10 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { Img } from "../components/exportComponents";
+import noImage from "../assets/unavailable-img.png";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const MovieSlider = ({ data, heading }) => {
   const [showNav, setShowNav] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleNav = () => {
     if (window.innerWidth > 800) {
@@ -55,34 +56,30 @@ const MovieSlider = ({ data, heading }) => {
           },
         }}
       >
-        {data ? (
-          data.map((item, index) => {
+        {data &&
+          data?.map((item) => {
             return (
-              <SwiperSlide className="movie-swiper" key={index}>
-                <Link to={`movie/${item.id}`} className="link-to-movie">
-                  <Img
+              <SwiperSlide className="movie-swiper" key={item.id}>
+                <Link to={`/movie/${item.id}`} className="link-to-movie">
+                  <LazyLoadImage
+                    alt="Poster"
+                    effect="blur"
+                    src={
+                      item.poster_path
+                        ? `https://image.tmdb.org/t/p/w400` + item.poster_path
+                        : noImage
+                    }
                     className="img"
-                    src={`https://image.tmdb.org/t/p/w400` + item.poster_path}
                   />
+
                   <p className="title">{item.title}</p>
                 </Link>
               </SwiperSlide>
             );
-          })
-        ) : (
-          <>
-            <LoadingScreen />
-            <LoadingScreen />
-            <LoadingScreen />
-          </>
-        )}
+          })}
       </Swiper>
     </div>
   );
-};
-
-const LoadingScreen = () => {
-  return <SwiperSlide className="movie-swiper-loading"></SwiperSlide>;
 };
 
 export default MovieSlider;

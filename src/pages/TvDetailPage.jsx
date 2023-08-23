@@ -7,7 +7,7 @@ import {
   fetchSelectedMovieCredits,
   fetchSelectedMovieVideos,
 } from "../features/movieSlice";
-import { AiFillPlayCircle, AiOutlineLink } from "react-icons/ai";
+import { AiOutlineLink } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Img, Credits, SelectedDetails } from "../components/exportComponents";
 import SimilarMovies from "../types/SimilarMovies";
@@ -22,9 +22,9 @@ const MovieDetail = () => {
   const credits = useSelector((state) => state.movie.selectedMovieCredits);
 
   useEffect(() => {
-    dispatch(fetchSelectedMovie({ type: "movie", id: id }));
-    dispatch(fetchSelectedMovieVideos({ type: "movie", id: id }));
-    dispatch(fetchSelectedMovieCredits({ type: "movie", id: id }));
+    dispatch(fetchSelectedMovie({ type: "tv", id: id }));
+    dispatch(fetchSelectedMovieVideos({ type: "tv", id: id }));
+    dispatch(fetchSelectedMovieCredits({ type: "tv", id: id }));
     return () => {
       dispatch(clearSelectedMovie());
     };
@@ -55,22 +55,34 @@ const MovieDetail = () => {
                 }
               />
               <div className="title-summary">
-                <h2 className="title">{data?.title}</h2>
+                <h2 className="title">{data?.name}</h2>
                 <p className="tagline">{data?.tagline}</p>
                 <p className="genres">
-                  {data?.runtime > 1 && <span>{data?.runtime} min</span>}
+                  {data?.episode_run_time.length > 0 && (
+                    <span>Episode: {data?.episode_run_time[0]} min</span>
+                  )}
                   {data?.genres.map((item, index) => {
-                    return <span key={index}>{item?.name}</span>;
+                    return <span key={index}>{item.name}</span>;
                   })}
+                </p>
+                <p className="type">
+                  <span className="seasons-episode">
+                    {data?.number_of_seasons}{" "}
+                    {data?.number_of_seasons > 1 ? "Seasons" : "Season"} /{" "}
+                    {data?.number_of_episodes} Episodes
+                  </span>{" "}
+                  &nbsp;&nbsp;&nbsp;
+                  <span className="type-of">Show Type: {data?.type}</span>
                 </p>
                 <div className="release-website">
                   <div className="release">
-                    Release:{" "}
-                    {data?.release_date?.slice(8, 10) +
-                      "/" +
-                      data?.release_date?.slice(5, 7) +
-                      "/" +
-                      data?.release_date?.slice(0, 4)}
+                    Timeline:{" "}
+                    {data?.first_air_date?.slice(0, 4) +
+                      "-" +
+                      data?.last_air_date?.slice(0, 4)}
+                    {data?.in_production === true
+                      ? " (Running)"
+                      : " (Cancelled)"}
                   </div>
                   <div className="website">
                     {data?.homepage && (
@@ -91,9 +103,9 @@ const MovieDetail = () => {
               </div>
             </div>
             <div className="additional-details">
-              {actors?.length && <Credits heading="Top Cast" actors={actors} />}
-              <RecommendedMovies type="movie" id={id} />
-              <SimilarMovies type="movie" id={id} />
+              <Credits heading="Top Cast" actors={actors} />
+              <RecommendedMovies type="tv" id={id} />
+              <SimilarMovies type="tv" id={id} />
             </div>
           </div>
         </div>
@@ -102,20 +114,4 @@ const MovieDetail = () => {
   );
 };
 
-const Trailer = ({ trailer }) => {
-  return (
-    <p className="trailer">
-      <Link
-        className="link-to-trailer"
-        to={`https://www.youtube.com/watch?v=${trailer}`}
-        target="_blank"
-      >
-        <span className="trailer-btn">
-          <AiFillPlayCircle />
-        </span>
-        <span>Trailer</span>
-      </Link>
-    </p>
-  );
-};
 export default MovieDetail;

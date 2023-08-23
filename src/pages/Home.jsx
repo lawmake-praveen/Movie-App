@@ -18,18 +18,20 @@ const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchPopularMovies());
-    // dispatch(fetchTopRatedMovies());
-    // dispatch(fetchUpcomingMovie());
-    // dispatch(fetchTrendingMovie());
+    dispatch(fetchTopRatedMovies());
+    dispatch(fetchUpcomingMovie());
+    dispatch(fetchTrendingMovie());
   }, []);
 
   return (
     <div className="home">
-      {/* <BackdropRows /> */}
-      <TrendingMovies />
-      <TopRatedMovies />
-      <PopularMovies />
-      <UpcomingMovies />
+      <BackdropRows />
+      <div className="home-type-list">
+        <TrendingMovies />
+        <TopRatedMovies />
+        <PopularMovies />
+        <UpcomingMovies />
+      </div>
     </div>
   );
 };
