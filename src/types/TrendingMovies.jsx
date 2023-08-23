@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const TrendingMovies = () => {
   const trendingMovies = useSelector((state) => state.movie.trending);
-  const data = trendingMovies.results;
+  const data = trendingMovies?.results;
   return (
     <div>
       <MovieSlider data={data} heading="Trending" />

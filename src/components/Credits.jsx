@@ -33,10 +33,10 @@ const ShowCredits = ({ data, heading }) => {
           },
         }}
       >
-        {data?.map((item) => {
+        {data?.map((item, index) => {
           return (
-            <SwiperSlide className="line-credits" key={item.id}>
-              <Link to={`/person/${item.id}`}>
+            <SwiperSlide className="line-credits" key={index}>
+              <Link to={`/person/${item.id}`} className="link-to-profile">
                 <div className="image">
                   <img
                     src={

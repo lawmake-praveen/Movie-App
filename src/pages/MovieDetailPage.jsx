@@ -37,7 +37,7 @@ const MovieDetail = () => {
 
   return (
     <div className="movie-tv-detail-page">
-      {data.id && (
+      {data?.id && (
         <div className="details">
           <div className="backdrop-container">
             <Img
@@ -102,20 +102,4 @@ const MovieDetail = () => {
   );
 };
 
-const Trailer = ({ trailer }) => {
-  return (
-    <p className="trailer">
-      <Link
-        className="link-to-trailer"
-        to={`https://www.youtube.com/watch?v=${trailer}`}
-        target="_blank"
-      >
-        <span className="trailer-btn">
-          <AiFillPlayCircle />
-        </span>
-        <span>Trailer</span>
-      </Link>
-    </p>
-  );
-};
 export default MovieDetail;

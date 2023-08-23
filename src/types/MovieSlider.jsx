@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
-import { Img } from "../components/exportComponents";
 import noImage from "../assets/unavailable-img.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -59,20 +58,23 @@ const MovieSlider = ({ data, heading }) => {
         {data &&
           data?.map((item) => {
             return (
-              <SwiperSlide className="movie-swiper" key={item.id}>
-                <Link to={`/movie/${item.id}`} className="link-to-movie">
+              <SwiperSlide className="movie-swiper" key={item?.id}>
+                <Link
+                  to={`/${item?.media_type || "movie"}/${item?.id}`}
+                  className="link-to-movie"
+                >
                   <LazyLoadImage
                     alt="Poster"
                     effect="blur"
                     src={
                       item.poster_path
-                        ? `https://image.tmdb.org/t/p/w400` + item.poster_path
+                        ? `https://image.tmdb.org/t/p/w400` + item?.poster_path
                         : noImage
                     }
                     className="img"
                   />
 
-                  <p className="title">{item.title}</p>
+                  <p className="title">{item?.title || item?.name}</p>
                 </Link>
               </SwiperSlide>
             );

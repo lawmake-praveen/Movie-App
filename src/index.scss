@@ -117,9 +117,11 @@ body {
         font-size: 1.4rem;
         display: grid;
         place-content: center;
-        color: #fff;
+        background-color: #fff;
+        color: #000;
         width: 36px;
         height: 36px;
+        border-radius: 50%;
       }
     }
     .search-tab {
@@ -132,29 +134,36 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 5px;
+      border-radius: 20px;
       border: none;
 
       * {
         border: none;
+        background-color: #000;
+        color: #fff;
       }
       input {
         height: 100%;
         width: 100%;
-        padding: 0 10px;
         font-size: 1rem;
+        padding: 0 20px;
+
+        &::placeholder {
+          color: #9a9a9a;
+        }
       }
       button {
         width: 36px;
         height: 100%;
         border: none;
         display: grid;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         place-content: center;
       }
     }
     .show-search-tab {
-      height: 36px;
+      height: 38px;
+      box-shadow: 0px 0px 3px lightgray;
     }
   }
   .home {
@@ -210,6 +219,8 @@ body {
     }
   }
   .movie-tv-detail-page {
+    animation: fade 1s 1 ease-in;
+
     .details {
       position: relative;
 
@@ -403,25 +414,28 @@ body {
               padding: 6px;
               height: 100%;
 
-              .image {
-                img {
-                  border-radius: 10px;
-                  width: 100%;
+              .link-to-profile {
+                text-decoration: none;
+                .image {
+                  img {
+                    border-radius: 10px;
+                    width: 100%;
+                  }
                 }
-              }
-              .name-details {
-                color: #fff;
-                text-align: center;
-                font-size: 0.9rem;
+                .name-details {
+                  color: #fff;
+                  text-align: center;
+                  font-size: 0.9rem;
 
-                .name {
-                  margin: 5px 0;
-                }
-                .charactor {
-                  word-wrap: break-word;
-                  font-size: 0.7rem;
-                  color: rgb(203, 203, 203);
-                  margin: 0;
+                  .name {
+                    margin: 5px 0;
+                  }
+                  .charactor {
+                    word-wrap: break-word;
+                    font-size: 0.7rem;
+                    color: rgb(203, 203, 203);
+                    margin: 0;
+                  }
                 }
               }
             }
@@ -513,6 +527,20 @@ body {
     font-size: 90%;
   }
   .App {
+    .navbar {
+      .logo-div {
+        img {
+          width: 120px;
+        }
+      }
+      .right-div {
+        gap: 10px;
+
+        .change-genre {
+          width: 100px;
+        }
+      }
+    }
     .home {
       .home-type-list {
         padding: 0;

@@ -24,7 +24,7 @@ const SearchPage = () => {
   return (
     <div>
       <ExploreTemplate
-        heading={`results for "${name}"`}
+        heading={`Results for "${name}"`}
         data={searchMovies}
         fetchNextPage={fetchNextPage}
       />

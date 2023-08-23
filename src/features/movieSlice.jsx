@@ -70,11 +70,20 @@ export const fetchSearchMovie = createAsyncThunk(
 export const fetchSelectedMovie = createAsyncThunk(
   "movies/fetchSelectedMovie",
   async (object) => {
-    const response = await fetch(
-      `${BASE_URL}/${object.type}/${object.id}`,
-      options
-    ).then((response) => response.json());
-    return response;
+    try {
+      const response = await fetch(
+        `${BASE_URL}/${object.type}/${object.id}`,
+        options
+      ).then((response) => {
+        if (!response.ok) {
+          throw new Error("No Details");
+        }
+        return response.json();
+      });
+      return response;
+    } catch (error) {
+      window.alert("Details For this movie is not updated");
+    }
   }
 );
 export const fetchSelectedMovieVideos = createAsyncThunk(
@@ -91,7 +100,7 @@ export const fetchSelectedMovieCredits = createAsyncThunk(
   "movies/fetchSelectedMovieCredits",
   async (object) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/${object.type}/${object.id}/credits?language=en-US`,
+      `${BASE_URL}/${object.type}/${object.id}/credits`,
       options
     ).then((response) => response.json());
     return response;
@@ -101,7 +110,7 @@ export const fetchSimilarMovies = createAsyncThunk(
   "movies/fetchSimilarMovies",
   async (object) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/${object.type}/${object.id}/similar?language=en-US&page=1`,
+      `${BASE_URL}/${object.type}/${object.id}/similar`,
       options
     ).then((response) => response.json());
     return response;
@@ -111,7 +120,7 @@ export const fetchRecommendedMovies = createAsyncThunk(
   "movies/fetchRecommendedMovies",
   async (object) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/${object.type}/${object.id}/recommendations?language=en-US&page=1`,
+      `${BASE_URL}/${object.type}/${object.id}/recommendations`,
       options
     ).then((response) => response.json());
     return response;
@@ -120,10 +129,9 @@ export const fetchRecommendedMovies = createAsyncThunk(
 export const fetchPerson = createAsyncThunk(
   "movies/fetchPerson",
   async (id) => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/person/${id}?language=en-US`,
-      options
-    ).then((response) => response.json());
+    const response = await fetch(`${BASE_URL}/person/${id}?`, options).then(
+      (response) => response.json()
+    );
     return response;
   }
 );
@@ -143,28 +151,64 @@ let initialState = {
   personDetails: {},
 };
 
+const clearDetails =
+  (selection) =>
+  (state, { payload }) => {
+    if (selection == "selectedMovie" || selection == "personDetails") {
+      state[selection] = payload ? payload : {};
+    } else if (selection == "explore" || selection == "searchMovie") {
+      state[selection] = payload ? payload : [];
+    }
+  };
+
+const addDetail = (state, payload, selection) => {
+  return { ...state, [selection]: payload };
+};
+
 const MovieSlice = createSlice({
   name: "movie",
   initialState,
   reducers: {
-    clearSelectedMovie: (state, { payload }) => {
-      state.selectedMovie = {};
-    },
+    clearSelectedMovie: clearDetails("selectedMovie"),
+    clearExplore: clearDetails("explore"),
+    clearSearchMovie: clearDetails("searchMovie"),
+    clearPersonDetails: clearDetails("personDetails"),
     changeMovieSortType: (state, { payload }) => {
       state.currentMovieSortType = payload;
-    },
-    clearExplore: (state, { payload }) => {
-      state.explore = [];
-    },
-    clearSearchMovie: (state, { payload }) => {
-      state.searchMovie = [];
-    },
-    clearPersonDetails: (state, { payload }) => {
-      state.personDetails = {};
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchPopularMovies.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "popularMovies");
+      })
+      .addCase(fetchTrendingMovie.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "trending");
+      })
+      .addCase(fetchTopRatedMovies.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "topRatedMovies");
+      })
+      .addCase(fetchUpcomingMovie.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "upcomingMovies");
+      })
+      .addCase(fetchSelectedMovie.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "selectedMovie");
+      })
+      .addCase(fetchSelectedMovieVideos.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "selectedMovieVideos");
+      })
+      .addCase(fetchSelectedMovieCredits.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "selectedMovieCredits");
+      })
+      .addCase(fetchSimilarMovies.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "similarMovies");
+      })
+      .addCase(fetchRecommendedMovies.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "recommendedMovies");
+      })
+      .addCase(fetchPerson.fulfilled, (state, { payload }) => {
+        return addDetail(state, payload, "personDetails");
+      })
       .addCase(fetchExplore.fulfilled, (state, { payload }) => {
         if (state.explore.length > 0) {
           if (state?.explore[0]?.id !== payload?.results[0]?.id) {
@@ -179,18 +223,6 @@ const MovieSlice = createSlice({
             explore: [...state?.explore, ...payload?.results],
           };
         }
-      })
-      .addCase(fetchPopularMovies.fulfilled, (state, { payload }) => {
-        return { ...state, popularMovies: payload };
-      })
-      .addCase(fetchTrendingMovie.fulfilled, (state, { payload }) => {
-        return { ...state, trending: payload };
-      })
-      .addCase(fetchTopRatedMovies.fulfilled, (state, { payload }) => {
-        return { ...state, topRatedMovies: payload };
-      })
-      .addCase(fetchUpcomingMovie.fulfilled, (state, { payload }) => {
-        return { ...state, upcomingMovies: payload };
       })
       .addCase(fetchSearchMovie.fulfilled, (state, { payload }) => {
         if (state.searchMovie?.length > 0) {
@@ -209,24 +241,6 @@ const MovieSlice = createSlice({
             searchMovie: [...state.searchMovie, ...payload?.results],
           };
         }
-      })
-      .addCase(fetchSelectedMovie.fulfilled, (state, { payload }) => {
-        return { ...state, selectedMovie: payload };
-      })
-      .addCase(fetchSelectedMovieVideos.fulfilled, (state, { payload }) => {
-        return { ...state, selectedMovieVideos: payload };
-      })
-      .addCase(fetchSelectedMovieCredits.fulfilled, (state, { payload }) => {
-        return { ...state, selectedMovieCredits: payload };
-      })
-      .addCase(fetchSimilarMovies.fulfilled, (state, { payload }) => {
-        return { ...state, similarMovies: payload };
-      })
-      .addCase(fetchRecommendedMovies.fulfilled, (state, { payload }) => {
-        return { ...state, recommendedMovies: payload };
-      })
-      .addCase(fetchPerson.fulfilled, (state, { payload }) => {
-        return { ...state, personDetails: payload };
       });
   },
 });
