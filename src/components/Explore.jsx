@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import NoImage from "../assets/unavailable-img.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ThreeDots } from "react-loader-spinner";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Explore = ({ heading, data, type, fetchNextPage }) => {
   const fitstLetter = heading.charAt(0);
@@ -43,7 +42,7 @@ const Explore = ({ heading, data, type, fetchNextPage }) => {
                   className="movie-card"
                   key={index}
                 >
-                  <LazyLoadImage
+                  <img
                     src={
                       item?.poster_path
                         ? "https://image.tmdb.org/t/p/w400" + item?.poster_path
