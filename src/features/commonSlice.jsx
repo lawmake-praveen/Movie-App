@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const KEY = import.meta.env.VITE_TOKEN;
 
 export const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TOKEN}`,
+    Authorization: `Bearer ${KEY}`,
   },
 };
 
