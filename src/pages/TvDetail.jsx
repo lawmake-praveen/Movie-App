@@ -6,18 +6,18 @@ import {
   fetchSelected,
   fetchSelectedCredits,
   fetchSelectedVideos,
-} from "../features/movieSlice";
+} from "../features/selectedSlice";
 import { AiOutlineLink } from "react-icons/ai";
 import { Credits, SelectedDetails } from "../components/exportComponents";
 import { Similar, Recommended } from "../types/exportTypes";
-import noImage from "../assets/unavailable-img-big.png";
+import noImage from "../assets/no-poster-img.png";
 
 const TvDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.movie.selected);
-  const videoData = useSelector((state) => state.movie.selectedVideos);
-  const credits = useSelector((state) => state.movie.selectedCredits);
+  const data = useSelector((state) => state.selected.selected);
+  const videoData = useSelector((state) => state.selected.selectedVideos);
+  const credits = useSelector((state) => state.selected.selectedCredits);
 
   useEffect(() => {
     dispatch(fetchSelected({ type: "tv", id: id }));
@@ -32,6 +32,12 @@ const TvDetail = () => {
   const actors = array
     ?.filter((e) => e.known_for_department?.includes("Acting"))
     .slice(0, 10);
+
+  useEffect(() => {
+    if (data?.name) {
+      document.title = `${data?.name}`;
+    }
+  }, [data?.name]);
 
   return (
     <div className="movie-tv-detail-page">
@@ -61,11 +67,11 @@ const TvDetail = () => {
                 <h2 className="title">{data?.name}</h2>
                 <p className="tagline">{data?.tagline}</p>
                 <p className="genres">
-                  {data?.episode_run_time.length > 0 && (
+                  {data?.episode_run_time?.length > 0 && (
                     <span>Episode: {data?.episode_run_time[0]} min</span>
                   )}
-                  {data?.genres.map((item, index) => {
-                    return <span key={index}>{item.name}</span>;
+                  {data?.genres?.map((item, index) => {
+                    return <span key={index}>{item?.name}</span>;
                   })}
                 </p>
                 <p className="type">

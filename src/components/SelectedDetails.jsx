@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillStar, AiOutlinePlaySquare } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -64,7 +64,7 @@ const SelectedDetails = ({ data, videoData, credits }) => {
           </p>
           <p className="dir-list">
             {directors?.map((item, index) => {
-              return <span key={index}>{item?.name}</span>;
+              return <span key={index}>{item?.name},&nbsp;</span>;
             })}
           </p>
         </div>
@@ -76,7 +76,7 @@ const SelectedDetails = ({ data, videoData, credits }) => {
           </p>
           <p className="dir-list">
             {writers?.map((item, index) => {
-              return <span key={index}>{item?.name}</span>;
+              return <span key={index}>{item?.name},&nbsp;</span>;
             })}
           </p>
         </div>

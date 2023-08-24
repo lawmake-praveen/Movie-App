@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Explore } from "../components/exportComponents";
 import { useDispatch } from "react-redux";
-import { clearExplore, fetchExplore } from "../features/movieSlice";
+import { clearExplore, fetchExplore } from "../features/commonSlice";
 
 const ExploreMovies = () => {
-  const explore = useSelector((state) => state.movie.explore);
+  const explore = useSelector((state) => state.common.explore);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
@@ -18,6 +18,10 @@ const ExploreMovies = () => {
   useEffect(() => {
     dispatch(clearExplore());
     dispatch(fetchExplore({ type: "movie", page: 1 }));
+  }, []);
+
+  useEffect(() => {
+    document.title = "Explore Movies";
   }, []);
 
   return (

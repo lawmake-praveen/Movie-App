@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  clearSelected,
-  fetchSelected,
-  fetchSelectedCredits,
-  fetchSelectedVideos,
-} from "../features/movieSlice";
 import { AiOutlineLink } from "react-icons/ai";
 import { Credits, SelectedDetails } from "../components/exportComponents";
-import Similar from "../types/Similar";
-import Recommended from "../types/Recommended";
-import noImage from "../assets/unavailable-img-big.png";
+import { Similar, Recommended } from "../types/exportTypes";
+import noImage from "../assets/no-poster-img.png";
+import {
+  clearSelected,
+  fetchSelectedCredits,
+  fetchSelectedVideos,
+  fetchSelected,
+} from "../features/selectedSlice";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.movie.selected);
-  const videoData = useSelector((state) => state.movie.selectedVideos);
-  const credits = useSelector((state) => state.movie.selectedCredits);
+  const data = useSelector((state) => state.selected.selected);
+  const videoData = useSelector((state) => state.selected.selectedVideos);
+  const credits = useSelector((state) => state.selected.selectedCredits);
 
   useEffect(() => {
     dispatch(fetchSelected({ type: "movie", id: id }));
@@ -33,6 +32,12 @@ const MovieDetail = () => {
   const actors = array
     ?.filter((e) => e.known_for_department?.includes("Acting"))
     .slice(0, 10);
+
+  useEffect(() => {
+    if (data?.title) {
+      document.title = `${data?.title}`;
+    }
+  }, [data?.title]);
 
   return (
     <div className="movie-tv-detail-page">
@@ -63,7 +68,7 @@ const MovieDetail = () => {
                 <p className="tagline">{data?.tagline}</p>
                 <p className="genres">
                   {data?.runtime > 1 && <span>{data?.runtime} min</span>}
-                  {data?.genres.map((item, index) => {
+                  {data?.genres?.map((item, index) => {
                     return <span key={index}>{item?.name}</span>;
                   })}
                 </p>

@@ -84,6 +84,7 @@ body {
     .right-div {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 20px;
 
       .change-genre {
@@ -190,7 +191,7 @@ body {
             left: 20px;
             color: #fff;
             z-index: 3;
-            width: clamp(300px, 90%, 700px);
+            width: clamp(10px, 90%, 700px);
 
             .movie-title {
               font-size: 2rem;
@@ -281,7 +282,7 @@ body {
             }
           }
           .title-summary {
-            width: clamp(300px, 100%, 100%);
+            width: clamp(100px, 100%, 100%);
             * {
               color: #fff;
             }
@@ -327,6 +328,7 @@ body {
             .release-website {
               font-size: 0.9rem;
               display: flex;
+              flex-wrap: wrap;
               justify-content: start;
               align-items: center;
               gap: 20px;
@@ -361,10 +363,10 @@ body {
             }
             .story-line {
               font-size: 1.2rem;
-              margin: 0;
             }
             .overview {
               line-height: 150%;
+              margin: 0;
               margin: 5px 0;
             }
             .trailer-container {
@@ -412,13 +414,8 @@ body {
                 flex-wrap: wrap;
 
                 span {
-                  border-left: 2px solid rgb(200, 200, 200);
                   color: rgb(201, 201, 201);
-                  padding: 0 5px;
-                }
-                :first-child {
-                  padding: 0 5px 0 0;
-                  border: none;
+                  margin-bottom: 8px;
                 }
               }
             }
@@ -469,9 +466,6 @@ body {
     padding: 30px;
 
     .explore-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       padding-bottom: 20px;
 
       .heading {
@@ -606,11 +600,17 @@ body {
       .details {
         .details-container {
           .img-title {
-            width: clamp(200px, 96%, 100%);
+            width: 90%;
+
+            .img-container {
+              .img {
+                width: 80%;
+              }
+            }
           }
         }
         .additional-details {
-          width: clamp(200px, 96%, 100%);
+          width: clamp(100px, 96%, 100%);
         }
       }
     }
@@ -655,6 +655,22 @@ body {
       .all-content {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
         gap: 15px;
+      }
+    }
+  }
+}
+@media (max-width: 300px) {
+  html {
+    font-size: 60%;
+  }
+  .App {
+    .navbar {
+      .logo-div {
+        display: none;
+      }
+      .right-div {
+        width: 100%;
+        justify-content: space-between;
       }
     }
   }

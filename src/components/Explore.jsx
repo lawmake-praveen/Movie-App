@@ -1,20 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NoImage from "../assets/unavailable-img.png";
+import NoImage from "../assets/no-poster-img.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ThreeDots } from "react-loader-spinner";
 
 const Explore = ({ heading, data, type, fetchNextPage }) => {
-  const fitstLetter = heading.charAt(0);
-
   return (
     <div className="explore-page">
       <header className="explore-heading">
         <div className="heading">{heading}</div>
-
-        <div
-          className={`category ${fitstLetter === "r" ? "hide-category" : ""}`}
-        ></div>
       </header>
       <InfiniteScroll
         className="all-content"
@@ -35,7 +29,7 @@ const Explore = ({ heading, data, type, fetchNextPage }) => {
         }
       >
         {data
-          ? data.map((item, index) => {
+          ? data?.map((item, index) => {
               return (
                 <Link
                   to={`/${item?.media_type || type}/${item?.id}`}

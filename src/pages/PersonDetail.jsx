@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchPerson, clearPersonDetails } from "../features/movieSlice";
-import noImage from "../assets/user.png";
+import { fetchPerson, clearPersonDetails } from "../features/selectedSlice";
+import noImage from "../assets/no-user-img.png";
 import { AiFillHeart, AiOutlineLink } from "react-icons/ai";
 
 const PersonDetailPage = () => {
@@ -15,7 +15,13 @@ const PersonDetailPage = () => {
       dispatch(clearPersonDetails());
     };
   }, [id]);
-  const data = useSelector((state) => state.movie.personDetails);
+  const data = useSelector((state) => state.selected.personDetails);
+
+  useEffect(() => {
+    if (data?.name) {
+      document.title = `${data?.name}`;
+    }
+  }, [data?.name]);
 
   return (
     <div className="movie-tv-detail-page">

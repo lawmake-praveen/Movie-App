@@ -8,13 +8,14 @@ import {
   Upcoming,
 } from "../types/exportTypes";
 import { useDispatch } from "react-redux";
+import {} from "../features/commonSlice";
+import { fetchPopularMovies } from "../features/movieSlice";
+import { fetchPopularTv } from "../features/tvSlice";
 import {
-  fetchTrending,
-  fetchPopularMovies,
-  fetchPopularTv,
   fetchTopRated,
+  fetchTrending,
   fetchUpcoming,
-} from "../features/movieSlice";
+} from "../features/swiperSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const Home = () => {
     dispatch(fetchTopRated());
     dispatch(fetchUpcoming());
     dispatch(fetchTrending());
+    document.title = "TMDB App";
   }, []);
 
   return (

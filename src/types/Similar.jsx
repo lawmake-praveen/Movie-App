@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { MovieSlider } from "./exportTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSimilar } from "../features/movieSlice";
+import { fetchSimilar } from "../features/swiperSlice";
 
 const Similar = ({ type, id }) => {
   const dispatch = useDispatch();
-  const similar = useSelector((state) => state.movie.similar);
+  const similar = useSelector((state) => state.swiper.similar);
   const data = similar?.results;
 
   useEffect(() => {

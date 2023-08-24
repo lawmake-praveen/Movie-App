@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import noCastImg from "../assets/user.png";
+import noCastImg from "../assets/no-user-img.png";
 import { Link } from "react-router-dom";
 
 const Credits = ({ actors }) => {

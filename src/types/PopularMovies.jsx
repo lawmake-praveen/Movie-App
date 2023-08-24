@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const PopularMovies = () => {
   const popularMovies = useSelector((state) => state.movie.popularMovies);
-  const data = popularMovies.results;
+  const data = popularMovies?.results;
 
   return (
     <div>

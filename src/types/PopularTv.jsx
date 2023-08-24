@@ -3,7 +3,7 @@ import { MovieSlider } from "./exportTypes";
 import { useSelector } from "react-redux";
 
 const PopularTv = () => {
-  const popularTv = useSelector((state) => state.movie.popularTv);
+  const popularTv = useSelector((state) => state.tv.popularTv);
   const data = popularTv?.results;
 
   return (

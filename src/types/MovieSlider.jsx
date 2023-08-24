@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
-import noImage from "../assets/unavailable-img.png";
+import noImage from "../assets/no-poster-img.png";
 
 const MovieSlider = ({ data, heading }) => {
   const [showNav, setShowNav] = useState(false);
@@ -18,10 +18,6 @@ const MovieSlider = ({ data, heading }) => {
     handleNav();
   }, []);
   window.addEventListener("resize", handleNav);
-
-  if (!data) {
-    return null;
-  }
   const breakpoints = {
     200: {
       slidesPerView: 2,
@@ -41,6 +37,10 @@ const MovieSlider = ({ data, heading }) => {
       slidesPerView: 6,
     },
   };
+
+  if (!data) {
+    return null;
+  }
   return (
     <div className="movie-slider">
       <h2 className="heading">{heading}</h2>
@@ -63,7 +63,7 @@ const MovieSlider = ({ data, heading }) => {
             return (
               <SwiperSlide className="movie-swiper" key={item?.id}>
                 <Link
-                  to={`/${item?.first_air_date ? 'tv': 'movie'}/${item?.id}`}
+                  to={`/${item?.first_air_date ? "tv" : "movie"}/${item?.id}`}
                   className="link-to-movie"
                 >
                   <img

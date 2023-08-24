@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import image from "../assets/tmdb-logo.svg";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { fetchSearch } from "../features/movieSlice";
+import { fetchSearch } from "../features/commonSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 
