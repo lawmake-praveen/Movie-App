@@ -8,6 +8,7 @@ import {
   SearchPage,
   TvDetail,
   PersonDetail,
+  PageNotAvailable,
 } from "./pages/exportPages";
 import { Footer, Navbar } from "./components/exportComponents";
 
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/search/:name" element={<SearchPage />} />
           <Route path="/discover/movie" exact element={<ExploreMovies />} />
           <Route path="/discover/tv" element={<ExploreTVShows />} />
+          <Route path="*" element={<PageNotAvailable />} />
         </Routes>
         <Footer />
       </BrowserRouter>
