@@ -4,10 +4,16 @@ import { BASE_URL, options, addDetail } from "./commonSlice";
 export const fetchPopularMovies = createAsyncThunk(
   "popularMovies/fetchPopularMovies",
   async () => {
-    const response = await fetch(`${BASE_URL}/movie/popular`, options).then(
-      (response) => response.json()
-    );
-    return response;
+    try {
+      const response = await fetch(`${BASE_URL}/movie/popular`, options).then(
+        (response) => response.json()
+      );
+      return response;
+    } catch (error) {
+      alert(
+        "Movie data is not accessible on mobile data. For the best experience, please connect to a Wi-Fi network to access the content."
+      );
+    }
   }
 );
 

@@ -14,11 +14,17 @@ export const BASE_URL = "https://api.themoviedb.org/3";
 export const fetchExplore = createAsyncThunk(
   "movies/fetchExplore",
   async (object) => {
-    const response = await fetch(
-      `${BASE_URL}/discover/${object.type}?language=en-US&page=${object.page}&sort_by=popularity.desc`,
-      options
-    ).then((response) => response.json());
-    return response;
+    try {
+      const response = await fetch(
+        `${BASE_URL}/discover/${object.type}?language=en-US&page=${object.page}&sort_by=popularity.desc`,
+        options
+      ).then((response) => response.json());
+      return response;
+    } catch (error) {
+      alert(
+        "Movie data is not accessible on mobile data. For the best experience, please connect to a Wi-Fi network to access the content."
+      );
+    }
   }
 );
 export const fetchSearch = createAsyncThunk(
